@@ -1,22 +1,47 @@
-import { useEffect, useState } from 'react'
-import './App.css'
+// main UI controller
+import { useState } from "react";
+import { getTotal, getRateTime } from "./api/api";
+
+import ItemForm from "./components/ItemForm";
+import ItemList from "./components/ItemList";
+import CurrencySelector from "./components/CurrencySelector";
 
 function App() {
-  const [total, setTotal] = useState(0)
+  const [currency, setCurrency] = useState("INR");
+  const [total, setTotal] = useState(0);
+  const [time, setTime] = useState("");
+  const [refreshFlag, setRefreshFlag] = useState(0);
 
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/total')
-      .then(response => response.json())
-      .then(data => setTotal(data.total_inr))
-      .catch(error => console.error('Error fetching total:', error));
-  }, [])
+  const refresh = () => {
+    setRefreshFlag(prev => prev + 1);
+  };
+
+  const fetchTotal = async () => {
+    const data = await getTotal(currency);
+    setTotal(data.total);
+  };
+
+  const fetchTime = async () => {
+    const data = await getRateTime(currency);
+    setTime(data.last_updated);
+  };
 
   return (
     <div>
-      <h1>Gift Budget Total</h1>
-      <p>Total in INR: ₹{total}</p>
+      <h1>Global Gift Budgeter</h1>
+
+      <ItemForm refresh={refresh} />
+      <ItemList refreshFlag={refreshFlag} />
+
+      <CurrencySelector currency={currency} setCurrency={setCurrency} />
+
+      <button onClick={fetchTotal}>Calculate Total</button>
+      <h2>Total: {total} {currency}</h2>
+
+      <button onClick={fetchTime}>Show Last Updated</button>
+      <p>Last Updated: {time}</p>
     </div>
   );
 }
 
-export default App
+export default App;
