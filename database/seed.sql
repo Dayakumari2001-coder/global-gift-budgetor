@@ -6,12 +6,17 @@
 INSERT INTO users (name) VALUES ('Daya Kumari');
 
 -- insert exchange rates (latest values)
-INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('USD','INR',83.00);
-INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('EUR','INR',90.00);
-INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('INR','USD',0.012);
-INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('INR','EUR',0.011);
-INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('USD','EUR',0.92);
-INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('EUR','USD',1.08);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('USD','INR',94.92);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('EUR','INR',110.92);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('INR','USD',0.0105);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('INR','EUR',0.0090);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('USD','EUR',0.8550);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('EUR','USD',1.1690);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('CAD','USD',0.73);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('CAD','INR',69.44);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('USD','CAD',1.37);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('USD','AED',3.67);
+INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('CAD','AED',2.68);
 
 -- insert sample wishlist items
 INSERT INTO wishlist (user_id, item_name, foreign_price, currency)
