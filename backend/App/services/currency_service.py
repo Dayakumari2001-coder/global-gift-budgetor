@@ -1,5 +1,8 @@
 """currency_service.py - Service to handle currency conversion logic."""
 from ..db import get_connection
+from forex_python.converter import CurrencyRates
+
+currency_rates = CurrencyRates()
 
 def get_total(home_currency):
     """Calculate the total budget in the specified home currency."""
@@ -14,5 +17,6 @@ def get_total(home_currency):
         WHERE e.to_currency = %s
     """, (home_currency,))
 
-    result = cursor.fetchone()[0]
+    row = cursor.fetchone()[0]
+    result=row if row is not None else 0
     return result or 0

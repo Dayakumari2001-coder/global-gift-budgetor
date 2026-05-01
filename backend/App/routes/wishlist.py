@@ -1,6 +1,6 @@
 """wishlist.py - Route to add items to the wishlist."""
 from fastapi import APIRouter
-from ..models.item_model import Item
+from backend.App.models.item_model import Item
 from ..services.wishlist_service import add_item, update_item, delete_item  # type: ignore
 from ..db import get_connection
 

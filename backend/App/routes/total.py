@@ -1,6 +1,6 @@
 """total.py - Route to calculate total budget in INR."""
 from fastapi import APIRouter
-from ..services.currency_service import get_total  # type: ignore
+from ..services.currency_service import get_total
 from ..db import get_connection
 
 router = APIRouter()
