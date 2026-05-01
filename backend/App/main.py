@@ -7,6 +7,11 @@ from .routes import wishlist, total
 
 app = FastAPI()
 
+@app.get("/")
+def greet():
+    """Greet the user."""
+    return "Welcome to the Global Gift Budgetor!"
+
 # CORS (For react)
 app.add_middleware(
     CORSMiddleware,
