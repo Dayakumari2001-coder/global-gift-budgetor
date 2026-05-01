@@ -1,6 +1,7 @@
 // main UI controller
 import { useState } from "react";
 import { getTotal, getRateTime } from "./api/api";
+import "./App.css";
 
 import ItemForm from "./components/ItemForm";
 import ItemList from "./components/ItemList";
