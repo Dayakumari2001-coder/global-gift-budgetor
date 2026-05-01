@@ -2,8 +2,10 @@
 -- SAMPLE DATA INSERTION
 -- =========================================
 
--- insert user
-INSERT INTO users (name) VALUES ('Daya Kumari');
+--insert user data
+INSERT INTO users (home_currency) VALUES ('INR');
+INSERT INTO users (home_currency) VALUES ('USD');
+
 
 -- insert exchange rates (latest values)
 INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('USD','INR',94.92);
@@ -19,8 +21,8 @@ INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('USD','AED
 INSERT INTO exchange_rates (from_currency, to_currency, rate) VALUES ('CAD','AED',2.68);
 
 -- insert sample wishlist items
-INSERT INTO wishlist (user_id, item_name, foreign_price, currency)
-VALUES (1, 'Laptop', 1000.00, 'USD');
+INSERT INTO wishlist (item_name, foreign_price, currency,)
+VALUES ('Laptop', 1000.00, 'USD');
 
-INSERT INTO wishlist (user_id, item_name, foreign_price, currency)
-VALUES (1, 'Headphones', 200.00, 'EUR');
+INSERT INTO wishlist (item_name, foreign_price, currency)
+VALUES ('Headphones', 200.00, 'EUR');

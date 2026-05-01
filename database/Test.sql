@@ -7,12 +7,6 @@ USE gift_db;
 SHOW TABLES;
 
 -- =========================================
--- VIEW USERS
--- =========================================
-
-SELECT * FROM users;
-
--- =========================================
 -- VIEW WISHLIST ITEMS
 -- =========================================
 
@@ -25,24 +19,25 @@ SELECT * FROM wishlist;
 SELECT * FROM exchange_rates;
 
 -- =========================================
--- CHECK TOTAL (INR)
--- =========================================
-
-SELECT SUM(w.foreign_price * e.rate) AS total_in_inr
-FROM wishlist w
-JOIN exchange_rates e
-ON w.currency = e.from_currency
-WHERE e.to_currency = 'INR';
-
--- =========================================
 -- CHECK TOTAL (USD)
 -- =========================================
 
-SELECT SUM(w.foreign_price * e.rate) AS total_in_usd
+SELECT SUM(w.foreign_price * e.rate)
 FROM wishlist w
 JOIN exchange_rates e
 ON w.currency = e.from_currency
-WHERE e.to_currency = 'USD';
+WHERE e.to_currency ='USD';
+
+-- =========================================
+-- CHECK TOTAL (INR)
+-- =========================================
+
+SELECT SUM(w.foreign_price * e.rate)
+FROM wishlist w
+JOIN exchange_rates e
+ON w.currency = e.from_currency
+WHERE e.to_currency ='INR';
+
 
 -- =========================================
 -- CHECK LAST UPDATED TIME
