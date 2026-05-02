@@ -9,7 +9,7 @@ router = APIRouter()
 def total(currency: str):
     """Calculate and return the total budget in the specified currency."""
     value = get_total(currency)
-    return {"total": round(value, 2), "currency": currency}
+    return {"total": round(value, 6), "currency": currency}
 
 @router.get("/rate-time/{currency}")
 def rate_time(currency: str):
@@ -20,7 +20,7 @@ def rate_time(currency: str):
     cursor.execute("""
         SELECT last_updated 
         FROM exchange_rates
-        WHERE to_currency = %s
+        WHERE to_currency = %s 
         LIMIT 1
     """, (currency,))
 

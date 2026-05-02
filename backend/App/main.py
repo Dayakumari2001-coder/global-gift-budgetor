@@ -3,6 +3,9 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from flask import jsonify, request
+
+from backend.App.services.currency_service import get_total
 from .routes import wishlist, total
 
 app = FastAPI()
@@ -22,3 +25,19 @@ app.add_middleware(
 )
 app.include_router(wishlist.router)
 app.include_router(total.router)
+
+@app.route('/get-total', methods=['POST'])
+def handle_get_total():
+    """Handle POST request to calculate total budget."""
+    data = request.json()
+    home_currency = data.get("home_currency")
+
+    #PUT VALIDATION HERE
+    if not home_currency:
+        #RETURN 400 BECAUSE THE USER DIDN,T PROVIDE REQUIRED INPUT
+        return jsonify({"error": "Please provide a home currency"}),400
+    try:
+        result = get_total(home_currency)
+        return jsonify({"total": result})
+    except ValueError as e:
+        return jsonify({"error": str(e)}),500
