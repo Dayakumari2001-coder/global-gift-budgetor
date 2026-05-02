@@ -1,11 +1,14 @@
 // form to add new item
 import { useState } from "react";
 import { addItem } from "../api/api";
+import Select from "react-select";
+import cc from "currency-codes";
 
 function ItemForm({ refresh }) {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("");
+  const currencyOptions = cc.codes().map(code => ({ value: code, label: `${code} -${cc.currencies(code).name}` }));
 
   const submit = async () => {
     await addItem({
@@ -36,10 +39,14 @@ function ItemForm({ refresh }) {
         onChange={(e) => setPrice(e.target.value)}
       />
 
-      <select onChange={(e) => setCurrency(e.target.value)}>
-        <option>USD</option>
-        <option>EUR</option>
-      </select>
+      <Select
+        value={currencyOptions.find(option => option.value === currency)}
+        onChange={(selectedOption) => setCurrency(selectedOption.value)}
+        options={currencyOptions}
+        placeholder="Select Currency"
+        isClearable
+        isSearchable
+      />
 
       <button onClick={submit}>Add</button>
     </div>

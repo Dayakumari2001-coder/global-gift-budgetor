@@ -8,7 +8,7 @@ import ItemList from "./components/ItemList";
 import CurrencySelector from "./components/CurrencySelector";
 
 function App() {
-  const [currency, setCurrency] = useState("INR");
+  const [currency, setCurrency] = useState("home_currency");
   const [total, setTotal] = useState(0);
   const [time, setTime] = useState("");
   const [refreshFlag, setRefreshFlag] = useState(0);
@@ -28,20 +28,23 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Global Gift Budgeter</h1>
+    <section className="Global gift budgeter">
 
-      <ItemForm refresh={refresh} />
-      <ItemList refreshFlag={refreshFlag} />
+      <div className="budgeter-container">
+        <h1>Global Gift Budgeter</h1>
 
-      <CurrencySelector currency={currency} setCurrency={setCurrency} />
+        <ItemForm refresh={refresh} />
+        <ItemList refreshFlag={refreshFlag} />
 
-      <button onClick={fetchTotal}>Calculate Total</button>
-      <h2>Total: {total} {currency}</h2>
+        <CurrencySelector currency={currency} setCurrency={setCurrency} />
 
-      <button onClick={fetchTime}>Show Last Updated</button>
-      <p>Last Updated: {time}</p>
-    </div>
+        <button onClick={fetchTotal}>Calculate Total</button>
+        <h2>Total Budget: {total} {currency}</h2>
+
+        <button onClick={fetchTime}>Show Last Updated</button>
+        <p>Last Updated: {time}</p>
+      </div>
+    </section>
   );
 }
 
