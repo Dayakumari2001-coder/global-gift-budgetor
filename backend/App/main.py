@@ -1,11 +1,11 @@
 """This module contains the backend logic for the main application."""
 # Question: Setup FastAPI main app
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from flask import jsonify, request
+from pydantic import BaseModel
 
-from backend.App.services.currency_service import get_total
+from .services.currency_service import get_total
 from .routes import wishlist, total
 
 app = FastAPI()
@@ -18,7 +18,7 @@ def greet():
 # CORS (For react)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173"], # Your frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -26,18 +26,18 @@ app.add_middleware(
 app.include_router(wishlist.router)
 app.include_router(total.router)
 
-@app.route('/get-total', methods=['POST'])
-def handle_get_total():
-    """Handle POST request to calculate total budget."""
-    data = request.json()
-    home_currency = data.get("home_currency")
+class TotalRequest(BaseModel):
+    """Request model for total calculation."""
+    home_currency: str
 
-    #PUT VALIDATION HERE
-    if not home_currency:
-        #RETURN 400 BECAUSE THE USER DIDN,T PROVIDE REQUIRED INPUT
-        return jsonify({"error": "Please provide a home currency"}),400
+@app.post("/get-total")
+def handle_get_total(data: TotalRequest):
+    """Handle POST request to calculate total budget."""
+    if not data.home_currency:
+        raise HTTPException(status_code=400, detail="Please provide a home currency")
+
     try:
-        result = get_total(home_currency)
-        return jsonify({"total": result})
-    except ValueError as e:
-        return jsonify({"error": str(e)}),500
+        result = get_total(data.home_currency)
+        return {"total": result}
+    except ValueError as exc:
+        raise HTTPException(status_code=500, detail=str(exc))from exc

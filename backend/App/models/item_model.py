@@ -7,4 +7,3 @@ class Item(BaseModel):
     item_name: str = Field(min_length=2)
     price: float = Field(gt=0)
     currency: str
-    home_currency: str

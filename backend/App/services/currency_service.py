@@ -56,4 +56,3 @@ def get_total(home_currency):
         return result or 0
     except sqlite3.Error as e:
         return f"Database error: {e}"
-    db.comit()
