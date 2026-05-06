@@ -1,19 +1,26 @@
 #!/bin/bash 
-#define paths project directory and activate virtual environment
-PROJECT_DIR= "/path/to/your/project/backend"
-VENV_PATH= "/path/to/your/project/backend/venv"
+# Define paths to project directory and activate virtual environment
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/backend"
+VENV_PATH="${PROJECT_DIR}/venv"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Navigate to the project directory 
-cd "${PROJECT_DIR}"
-# activate virtual environment
-if [ -f "${VENV_PATH}" ]; then
+cd "${PROJECT_DIR}" || exit 1
+
+# Activate virtual environment
+if [ -d "${VENV_PATH}" ]; then
     source "${VENV_PATH}/bin/activate"
-    echo "Activating virtual environment..."
+    echo "Virtual environment activated at ${VENV_PATH}"
 else
-    echo "Virtual environment not found at ${VENV_PATH}. Please check the path."
+    echo "Virtual environment not found at ${VENV_PATH}. Please create it first."
     exit 1
 fi
-source ${VENV_PATH}/bin/activate
 
-#Execute the python script to update exchange rates
-python update_exchange_rates.py
-echo "Exchange rates updated at $(date) successfully.">> rate_log.txt
+# Execute the python script to update exchange rates
+if [ -f "App/services/currency_service.py" ]; then
+    python -c "from App.services.currency_service import update_exchange_rates; update_exchange_rates()"
+    echo "Exchange rates updated at $(date '+%Y-%m-%d %H:%M:%S') successfully." >> "${SCRIPT_DIR}/rate_log.txt"
+else
+    echo "Currency service not found. Please check the path."
+    exit 1
+fi

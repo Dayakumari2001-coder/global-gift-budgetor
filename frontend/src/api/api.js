@@ -1,26 +1,63 @@
-// base API URL
-const BASE = "http://127.0.0.1:8000";
+import axios from 'axios'; 
+// Frontend API utility for Global Gift Budgetor
+const BASE_URL = 'http://localhost:8000'; // Ensure this matches your BACKEND port, not Vite's port
 
-// add item
+
+// Add item to wishlist
 export const addItem = (data) =>
-  fetch(BASE + "/add-item", {
+  fetch(BASE_URL + "/add-item", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   });
 
-// get all items
+// Get all items
 export const getItems = () =>
-  fetch(BASE + "/items").then(res => res.json());
+  fetch(BASE_URL + "/items")
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch items');
+      return res.json();
+    })
+    .catch(err => {
+      console.error("Fetch error:", err);
+      return [];
+    });
 
-// delete item
+// Delete item
 export const deleteItem = (id) =>
-  fetch(BASE + `/delete-item/${id}`, { method: "DELETE" });
+  fetch(BASE_URL + `/delete-item/${id}`, { method: "DELETE" });
 
-// get total
+// Edit item
+export const editItem = async (id, data) => {
+  return axios.put(BASE_URL + `/items/${id}`, data);
+  
+  try {  
+    await editItem(editId, editData); 
+      setEditId(null);
+      load(); 
+  } 
+    catch (error) {
+      console.error("Failed to update item:", error);
+    }
+};
+
+// Get total budget
 export const getTotal = (currency) =>
-  fetch(BASE + `/total/${currency}`).then(res => res.json());
+  fetch(BASE_URL + `/total/${currency}`)
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch total');
+      return res.json();
+    })
+    .catch(err => {
+      console.error("Fetch error:", err);
+      return { total: 0 };
+    });
 
-// get last updated time
+// Get last updated time for exchange rates
 export const getRateTime = (currency) =>
-  fetch(BASE + `/rate-time/${currency}`).then(res => res.json());
+  fetch(BASE_URL + `/rate-time/${currency}`)
+    .then(res => res.json())
+    .catch(err => {
+      console.error("Fetch error:", err);
+      return { last_updated: null };
+    });
