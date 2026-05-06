@@ -1,4 +1,4 @@
-"""total.py - Route to calculate total budget in INR."""
+"""total.py - Route to calculate total budget and get last updated time for exchange rates."""
 from fastapi import APIRouter
 from ..services.currency_service import get_total
 from ..db import get_connection
