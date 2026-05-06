@@ -1,26 +1,35 @@
 // form to add new item
 import { useState } from "react";
 import { addItem } from "../api/api";
-import Select from "react-select";
 import cc from "currency-codes";
+import axios from 'axios';
 
 function ItemForm({ refresh }) {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [currency, setCurrency] = useState("");
-  const currencyOptions = cc.codes().map(code => ({ value: code, label: `${code} -${cc.currencies(code).name}` }));
+  const currencyOptions = cc.codes().map(code => {
+    const currencyInfo = cc.code(code);
+    return {
+      value: code,
+      label: `${code} - ${currencyInfo?.currency || 'unknown currency'}`
+    };
+  });
 
   const submit = async () => {
-    await addItem({
-      user_id: 1,
-      item_name: item,
-      price: parseFloat(price),
-      currency
-    });
+    try {
+      await addItem({
+        item_name: item,
+        price: parseFloat(price),
+        currency
+      });
 
-    setItem("");
-    setPrice("");
-    refresh(); // reload table
+      setItem("");
+      setPrice("");
+      refresh(); // reload table
+    } catch (error) {
+      console.error("Failed to add item:", error);
+    }
   };
 
   return (
@@ -39,14 +48,14 @@ function ItemForm({ refresh }) {
         onChange={(e) => setPrice(e.target.value)}
       />
 
-      <Select
-        value={currencyOptions.find(option => option.value === currency)}
-        onChange={(selectedOption) => setCurrency(selectedOption.value)}
-        options={currencyOptions}
-        placeholder="Select Currency"
-        isClearable
-        isSearchable
-      />
+      <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+        <option value="">Select Currency</option>
+        {currencyOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
 
       <button onClick={submit}>Add</button>
     </div>

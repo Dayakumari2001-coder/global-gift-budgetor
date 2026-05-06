@@ -174,14 +174,14 @@
 
 /* main container */
 
-/*.app-container {
+.app-container {
   max-width: 900px;
   margin: auto;
   padding: 20px;
   text-align: center;
 }
 
-/* section blocks 
+ section blocks 
 
 .section {
   background: white;
@@ -191,14 +191,14 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/*input + select 
+input + select 
 
 input, select {
   margin: 5px;
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
-}*/
+}
 
 buttons 
 

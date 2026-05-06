@@ -1,12 +1,10 @@
 // dropdown to select home currency
-import {useState} from "react";
-import Select from "react-select"; 
+import { useState } from "react"
 import cc from "currency-codes";
 
-function CurrencyComponent(){
-  const [currency, setCurrency] = useState("");
+function CurrencySelector() {
+  const [currency, setCurrency] = useState("USD");
   const [total, setTotal] = useState(null);
-  const [errorMessage, setErrorMessage]= useState("");
 
   const fetchTotal = async () => {
     try {
@@ -17,37 +15,38 @@ function CurrencyComponent(){
         },
         body: JSON.stringify({ home_currency: currency })
       });
-      
+
       const data = await response.json();
-      if(!response.ok) {
-        //If status is 400 or500, show error message from backend or default message
-        setErrorMessage(data.total ||"Error fetching total budget.");
+      if (!response.ok) {
+        console.error(data.detail || "Error fetching total budget.");
       } else {
         setTotal(data.total);
       }
     } catch (error) {
-      setErrorMessage("Network error: Could not reach the server.");
+      console.error("Network error: Could not reach the server.", error);
     }
   };
 
-  const currencyOptions = cc.codes().map(code => ({ value: code, label: `${code} -${cc.currencies(code).name}` }));
+  const currencyOptions = cc.codes().map(code => {
+    const currencyInfo = cc.code(code);
+    return {
+      value: code,
+      label: `${code} - ${currencyInfo?.currency || 'unknown currency'}`
+    };
+  });
+
   return (
     <div>
       <h3>Select Currency</h3>
-      <Select
-        value={currencyOptions.find(option => option.value === currency)}
-        onChange={(selectedOption) => setCurrency(selectedOption.value)}
-        options={currencyOptions}
-        placeholder="Type or select currency"
-        isClearable
-        isSearchable
-      />
+      <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+        <option value="">Select currency</option>
+        {currencyOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <button onClick={fetchTotal}>Get Total</button>
-      
-      {/*Conditionally show the error message*/}
-      {errorMessage && (
-        <div style={{color: "red",marginTop: "10px", fontWeight: "bold"}}>{errorMessage}</div>
-      )}
 
       {total !== null && <p>Total Budget: {total} {currency}</p>}
     </div>
