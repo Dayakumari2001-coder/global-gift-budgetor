@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "currency-codes": "^2.2.0",
-    "react-select": "^5.10.2"
+    "axios": "^1.16.0"
   }
 }
