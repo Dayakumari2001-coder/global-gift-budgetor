@@ -1,4 +1,4 @@
-import axios from 'axios'; 
+import axios from 'axios';
 // Frontend API utility for Global Gift Budgetor
 const BASE_URL = 'http://localhost:8000'; // Ensure this matches your BACKEND port, not Vite's port
 
@@ -30,15 +30,15 @@ export const deleteItem = (id) =>
 // Edit item
 export const editItem = async (id, data) => {
   return axios.put(BASE_URL + `/items/${id}`, data);
-  
-  try {  
-    await editItem(editId, editData); 
-      setEditId(null);
-      load(); 
-  } 
-    catch (error) {
-      console.error("Failed to update item:", error);
-    }
+
+  try {
+    await editItem(editId, editData);
+    setEditId(null);
+    load();
+  }
+  catch (error) {
+    console.error("Failed to update item:", error);
+  }
 };
 
 // Get total budget

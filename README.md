@@ -5,7 +5,7 @@ Global Gift Budgetor is a full-stack project for tracking gift items, prices, an
 ## Repository Structure
 
 - `backend/` - Python backend application
-  - `App/` - FastAPI app, routes, services, and database logic
+  - `app/` - FastAPI app, routes, services, and database logic
   - `requirements.txt` - Python dependencies for the backend
 - `frontend/` - React frontend application
   - `src/` - React source files and components
@@ -34,7 +34,7 @@ Global Gift Budgetor is a full-stack project for tracking gift items, prices, an
 
 4. Start the backend server:
    ```bash
-   uvicorn App.main:app --reload --host 0.0.0.0 --port 8000
+   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
    ```
 
 ## Frontend Setup
@@ -60,13 +60,13 @@ Global Gift Budgetor is a full-stack project for tracking gift items, prices, an
 ## Database
 
 - The project expects a MySQL database for the backend.
-- The backend currently connects using the credentials in `backend/App/db.py`.
+- The backend currently connects using the credentials in `backend/app/db.py`.
 - Use SQL files in `database/` to create schema and seed sample data.
 
 ## Notes
 
-- Backend routes are defined in `backend/App/routes/`.
-- Currency conversion logic is handled by `backend/App/services/currency_service.py`.
+- Backend routes are defined in `backend/app/routes/`.
+- Currency conversion logic is handled by `backend/app/services/currency_service.py`.
 - The frontend uses React components in `frontend/src/components/` and calls backend APIs.
 
 ## Troubleshooting

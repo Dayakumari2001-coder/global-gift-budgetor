@@ -17,8 +17,8 @@ else
 fi
 
 # Execute the python script to update exchange rates
-if [ -f "App/services/currency_service.py" ]; then
-    python -c "from App.services.currency_service import update_exchange_rates; update_exchange_rates()"
+if [ -f "app/services/currency_service.py" ]; then
+    python -c "from app.services.currency_service import update_exchange_rates; update_exchange_rates()"
     echo "Exchange rates updated at $(date '+%Y-%m-%d %H:%M:%S') successfully." >> "${SCRIPT_DIR}/rate_log.txt"
 else
     echo "Currency service not found. Please check the path."
