@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from services.currency_service import get_total
+from bakcend.services.currency_service import get_total
 from routes import wishlist, total
 
 app = FastAPI()

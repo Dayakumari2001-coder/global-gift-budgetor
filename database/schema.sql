@@ -1,10 +1,9 @@
 -- =========================================
 -- CLEAN START 
 -- =========================================
-
+DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS wishlist;
 DROP TABLE IF EXISTS exchange_rates;
-DROP TABLE IF EXISTS users;
 
 DROP DATABASE IF EXISTS gift_db;
 CREATE DATABASE gift_db;
@@ -16,7 +15,11 @@ USE gift_db;
 
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) ,
+    email_id VARCHAR(500) UNIQUE NOT NULL,
+    passward VARCHAR(255) NOT NULL,
     home_currency VARCHAR(10) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- =========================================
@@ -29,13 +32,14 @@ CREATE TABLE wishlist (
     item_name VARCHAR(100) NOT NULL,
     foreign_price DECIMAL(16,4) NOT NULL,
     currency VARCHAR(10) NOT NULL,
-
+    user_id INT,
     -- ensure price is positive
     CHECK (foreign_price > 0),
-
     -- link with user
-    --FOREIGN KEY (user_id) REFERENCES users(user_id)
-    --ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    ON DELETE CASCADE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
 );
 
 -- =========================================
@@ -44,17 +48,17 @@ CREATE TABLE wishlist (
 -- stores latest currency rates with timestamps
 
 CREATE TABLE exchange_rates (
-    from_currency VARCHAR(10),
-    to_currency VARCHAR(10),
+    base_currency VARCHAR(10),
+    target_currency VARCHAR(10),
     rate DECIMAL(19,6) NOT NULL,
-
+    
     -- time when record created
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
+   
     -- auto update time when rate changes
     last_updated TIMESTAMP 
     DEFAULT CURRENT_TIMESTAMP 
     ON UPDATE CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (from_currency, to_currency)
+    PRIMARY KEY (base_currency, targate_currency)
 );
